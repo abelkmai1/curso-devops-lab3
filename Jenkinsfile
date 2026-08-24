@@ -2,7 +2,7 @@ pipeline {
 
 	agent any
 
-    stage {
+    stages {
 		stage('CI - Integración continua') {
 			agent {
 					docker {
@@ -10,7 +10,6 @@ pipeline {
 						reuseNode true	
 					}
 			} 
-
 			stages {
 				stage('CI - instalar dependencias'){
 					steps {
