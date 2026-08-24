@@ -37,7 +37,7 @@ pipeline {
 			steps {
 				sh 'docker build -t curso-devops-lab3:latest .'
 				sh 'docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:latest'
-				sh 'docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:1.0.0'
+				sh 'docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:0.0.1'
 				sh 'docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:1'
 				sh 'docker tag curso-devops-lab3 ghcr.io/abelkmai1/curso-devops-lab3:latest'
 				sh 'docker tag curso-devops-lab3 ghcr.io/abelkmai1/curso-devops-lab3:0.0.1'
