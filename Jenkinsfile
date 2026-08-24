@@ -49,6 +49,25 @@ pipeline {
 				}
 			}
 		}
+		stage('Quality Assurance'){
+			agent {
+				docker{
+					image "sonarsource/sonar-scanner-cli'
+					reuseNode true	
+				}		
+			}
+		
+		stages{
+			stage('Validacion de codigo'){
+				steps {
+					withSonarQubeEnv('sonarqube') {
+						sh 'sonar-scanner'
+						}
+					}
+				}
+			}
+
+		}
 		stage('CD - Construir Imagen ') {
 			steps {
 				sh 'docker build -t curso-devops-lab3:latest .'
