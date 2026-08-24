@@ -33,9 +33,37 @@ pipeline {
 				}
 			}
 		}
-		stage('CD - Distribuir Image docker') {
+		stage('CD - Construir Imagen ') {
 			steps {
 				sh 'docker build -t curso-devops-lab3:latest .'
+				sh 'docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:latest'
+				sh 'docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:1.0.0'
+				sh 'docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:1'
+				sh 'docker tag curso-devops-lab3 ghcr.io/abelkmai1/curso-devops-lab3:latest'
+				sh 'docker tag curso-devops-lab3 ghcr.io/abelkmai1/curso-devops-lab3:0.0.1'
+				sh 'docker tag curso-devops-lab3 ghcr.io/abelkmai1/curso-devops-lab3:1'
+			}
+		}	
+		stage('CD - Distribuir Image dockerhub') {
+			steps {
+				script{
+					docker.withRegistry('https://index.docker.io/v1/','dh-credencia') {				
+					sh 'docker push diegovilla123/curso-devops-lab3:latest'
+					sh 'docker push diegovilla123/curso-devops-lab3:0.0.1'
+					sh 'docker push diegovilla123/curso-devops-lab3:1'
+					}
+				}
+			}
+		}	
+		stage('CD - Distribuir Image github') {	
+			steps {
+				script{
+					docker.withRegistry('https://ghcr.io','gh-credencial') {				
+					sh 'docker push ghcr.io/abelkmai1/curso-devops-lab3:latest'
+					sh 'docker push ghcr.io/abelkmai1/curso-devops-lab3:0.0.1'
+					sh 'docker push ghcr.io/abelkmai1/curso-devops-lab3:1'
+					}
+				}
 			}
 		}	
 	}	
