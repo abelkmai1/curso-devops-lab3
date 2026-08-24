@@ -52,7 +52,7 @@ pipeline {
 		stage('Quality Assurance'){
 			agent {
 				docker{
-					image "sonarsource/sonar-scanner-cli'
+					image 'sonarsource/sonar-scanner-cli'
 					reuseNode true	
 				}		
 			}
