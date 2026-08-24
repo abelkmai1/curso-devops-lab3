@@ -27,5 +27,10 @@ pipeline {
 	            sh 'npm run build'
 	        }
 	    }
+		stage('CD - construir imagen docker'){
+	        steps {
+	            sh 'docker build -t curso-devops-lab3:latest .'
+	        }
+	    }
     }
 }
