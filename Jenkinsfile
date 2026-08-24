@@ -4,7 +4,22 @@ pipeline {
       stages {
 	    stage('CI - instalar dependencias'){
 	        steps {
-	            sh 'echo "saludos desde el terminal"'
+	            sh 'npm install'
+	        }
+	    }
+	    stage('CI - ejecutar el linter'){
+	        steps {
+	            sh 'npm run lint'
+	        }
+	    }
+	    stage('CI - ejecutar los test'){
+	        steps {
+	            sh 'npm run test'
+	        }
+	    }
+	    stage('CI - construir o build'){
+	        steps {
+	            sh 'npm run build'
 	        }
 	    }
     }
