@@ -18,7 +18,12 @@ pipeline {
 								script: 'npm pkg get version | tr -d \'"\'',
 								returnStdout: true
 							).trim()
-							echo "La version de la app es: ${env.APP_SEMANTIC_VERSION}"
+
+							env.APP_BUILD_NUMBER = env.BUILD_NUMBER
+
+							echo "La version semantica del app es: ${env.APP_SEMANTIC_VERSION}"
+							echo "El build number del app es: ${env.APP_BUILD_NUMBER}"
+							
 						}
 					}
 				}
@@ -49,10 +54,10 @@ pipeline {
 				sh 'docker build -t curso-devops-lab3:latest .'
 				sh 'docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:latest'
 				sh "docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:${env.APP_SEMANTIC_VERSION}"
-				sh 'docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:1'
+				sh "docker tag curso-devops-lab3 diegovilla123/curso-devops-lab3:${env.APP_BUILD_NUMBER}"
 				sh 'docker tag curso-devops-lab3 ghcr.io/abelkmai1/curso-devops-lab3:latest'
 				sh "docker tag curso-devops-lab3 ghcr.io/abelkmai1/curso-devops-lab3:${env.APP_SEMANTIC_VERSION}"
-				sh 'docker tag curso-devops-lab3 ghcr.io/abelkmai1/curso-devops-lab3:1'
+				sh "docker tag curso-devops-lab3 ghcr.io/abelkmai1/curso-devops-lab3:${env.APP_BUILD_NUMBER}"
 			}
 		}	
 		stage('CD - Distribuir Image dockerhub') {
@@ -61,7 +66,7 @@ pipeline {
 					docker.withRegistry('https://index.docker.io/v1/','dh-credencial') {				
 					sh 'docker push diegovilla123/curso-devops-lab3:latest'
 					sh "docker push diegovilla123/curso-devops-lab3:${env.APP_SEMANTIC_VERSION}"
-					sh 'docker push diegovilla123/curso-devops-lab3:1'
+					sh "docker push diegovilla123/curso-devops-lab3:${env.APP_BUILD_NUMBER}"
 					}
 				}
 			}
@@ -72,7 +77,7 @@ pipeline {
 					docker.withRegistry('https://ghcr.io','gh-credencial') {				
 					sh 'docker push ghcr.io/abelkmai1/curso-devops-lab3:latest'
 					sh "docker push ghcr.io/abelkmai1/curso-devops-lab3:${env.APP_SEMANTIC_VERSION}"
-					sh 'docker push ghcr.io/abelkmai1/curso-devops-lab3:1'
+					sh "docker push ghcr.io/abelkmai1/curso-devops-lab3:${env.APP_BUILD_NUMBER}"
 					}
 				}
 			}
