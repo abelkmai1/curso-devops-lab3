@@ -47,7 +47,7 @@ pipeline {
 		stage('CD - Distribuir Image dockerhub') {
 			steps {
 				script{
-					docker.withRegistry('https://index.docker.io/v1/','dh-credencia') {				
+					docker.withRegistry('https://index.docker.io/v1/','dh-credencial') {				
 					sh 'docker push diegovilla123/curso-devops-lab3:latest'
 					sh 'docker push diegovilla123/curso-devops-lab3:0.0.1'
 					sh 'docker push diegovilla123/curso-devops-lab3:1'
