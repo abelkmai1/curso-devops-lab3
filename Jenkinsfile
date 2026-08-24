@@ -12,11 +12,11 @@ pipeline {
 			} 
 			stages {
 				stage('CI - obtener version de app'){
-					steps {
+					steps{
 						script{
 							env.APP_SEMANTIC_VERSION = sh(
 								script: 'npm pkg get version | tr -d \'"\'',
-								returnsStdout: true
+								returnStdout: true
 							).trim()
 							echo "La version de la app es: ${env.APP_SEMANTIC_VERSION}"
 						}
