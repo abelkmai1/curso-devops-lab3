@@ -37,8 +37,7 @@ pipeline {
 		stage('CD - Distribuir Image docker') {
 			steps {
 				sh 'docker build -t curso-devops-lab3:latest .'
-				}
-			}	
+			}
 		}	
-    }	
-}
+	}	
+}	
