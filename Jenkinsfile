@@ -2,6 +2,15 @@ pipeline {
 
 	agent any
 
+	environment {
+		IMAGE_NAME = "curso-devops-lab3"
+		GHCR_REPO = "ghcr.io/abelkmai1/curso-devops-lab3"
+		DH_REPO = "diegovilla123/curso-devops-lab3"
+		K8S_NAMESPACE = "dvillarroel"
+		K8S_DEPLOYMENT = "curso-devops-lab3-deployment"
+		K8S_CONTAINER = "contenedor-curso-devops-lab3"
+	}	
+
     stages {
 		stage('CI - Integración continua') {
 			agent {
@@ -115,6 +124,27 @@ pipeline {
 					}
 				}
 			}
-		}	
-	}	
+		}
+		stage("CD - Despliegue continuo en develop"){
+			agent {
+				docker {
+					image 'alpine/k8s:1.34.6'
+					reuseNode true
+				}	
+			}
+			steps{
+				script {
+					if(!env.APP_BUILD_NUMBER?.trim()){
+						error ("APP_BUILD_NUMBER, no definida para el despliegue")
+					}
+				}
+				withKubeconfig([credentialsId: 'credencial-k8']) {
+					sh """
+					kubectl -n ${env.K8S_NAMESPACE} set image deployment/${env.K8S_DEPLOYMENT} ${env.K8S_CONTAINER}=${env.GHCR_REPO}:${env.APP_BUILD_NUMBER}
+					kubectl -n ${env.K8S_NAMESPACE} rollout status deployment/${env.K8S_DEPLOYMENT}
+					"""
+				}
+			}
+		}
+	}		
 }	
