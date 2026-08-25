@@ -138,7 +138,7 @@ pipeline {
 						error ("APP_BUILD_NUMBER, no definida para el despliegue")
 					}
 				}
-				withKubeconfig([credentialsId: 'credencial-k8']) {
+				withKubeConfig([credentialsId: 'credencial-k8']) {
 					sh """
 					kubectl -n ${env.K8S_NAMESPACE} set image deployment/${env.K8S_DEPLOYMENT} ${env.K8S_CONTAINER}=${env.GHCR_REPO}:${env.APP_BUILD_NUMBER}
 					kubectl -n ${env.K8S_NAMESPACE} rollout status deployment/${env.K8S_DEPLOYMENT}
