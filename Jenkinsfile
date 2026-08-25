@@ -66,6 +66,20 @@ pipeline {
 						}
 					}
 				}
+				stage('Validacion de puerta de calidad'){
+					option{
+						timeout(time: 1, unit: "MINUTES")
+					}
+
+					steps{
+						script{
+							def qualityGate = waitForQualityGate();
+							if(qualityGate.status != 'OK'){
+								error "La puerta de calidad ha fallado ${qualityGate.status}"
+							}
+						}
+					}
+				}
 			}
 
 		}
