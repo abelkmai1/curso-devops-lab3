@@ -66,6 +66,21 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: curso-devops-lab3-service
+  namespace: dvillarroel
+  labels:
+    app: curso-devops-lab3-stack
+spec:
+  selector:
+    app: curso-devops-lab3-stack
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
         
               
     
