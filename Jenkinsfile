@@ -67,7 +67,7 @@ pipeline {
 					}
 				}
 				stage('Validacion de puerta de calidad'){
-					option{
+					options{
 						timeout(time: 1, unit: "MINUTES")
 					}
 
